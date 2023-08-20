@@ -1,0 +1,150 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(214, 73, 232, 1) 0%, rgba(136, 6, 175, 1) 80%);
+}
+
+.navigation {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 4px;
+    z-index: 9999999999999;
+}
+
+.navigation > button {
+    background-color: transparent;
+    border: none;
+    height: calc(100% - 5px);
+    width: calc(40px - 5px);
+    border-bottom: 1px blue solid;
+    transition: all .3s;
+    border-radius: 10px;
+}
+
+.navigation > button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+}
+
+.navigation > button > img {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+}
+
+.window {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    background-color: #0f172a;
+    border-radius: 12px;
+    color: #ffffff;
+    border: 2px #94a3b8 solid
+}
+
+.titleBar {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background-color: #1e293b;
+    border-radius: 10px 10px 0px 0px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.titleBar:hover {
+    cursor: move;
+}
+
+.titleBar>span {
+    user-select: none;
+}
+
+.close {
+    width: 27px;
+    height: 27px;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    border-radius: 9999999px;
+    transition: all .2s;
+}
+
+.close:hover {
+    cursor: pointer !important;
+    background-color: #dc2626;
+}
+
+.close:active {
+    filter: opacity(0.5)
+}
+
+.close>span {
+    position: relative;
+    top: -6px;
+    user-select: none;
+    filter: opacity(1) !important;
+}
+
+.windowContent {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 40px);
+    bottom: 0;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.windowContent > p {
+    position: relative;
+    word-wrap: break-word;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.fileSystem {
+   width: 100%;
+   height: max-content;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   gap: 15px;
+}
+
+.fileSystem > div {
+    width: 40px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fileSystem > div > img {
+    width: 40px;
+    height: 40px;
+}
+
+.fileSystem > div > span {
+    word-wrap: break-word;
+    user-select: none;
+}
+
+.fileSystem > div:hover {
+    cursor: pointer;
+}

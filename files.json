@@ -1,0 +1,26 @@
+{
+    "folder": {
+        "name": "yes",
+        "type": "folder",
+
+        "children": {
+            "file": {
+                "type": "file",
+                "file": "js"
+            }
+        }
+
+    },
+    "folder2": {
+        "name": "yes2",
+        "type": "folder",
+
+        "children": {
+            "file": {
+                "type": "file",
+                "file": "js"
+            }
+        }
+        
+    }
+}
