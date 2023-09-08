@@ -11,6 +11,17 @@ function initWindow(windowElement) {
     var titleBar = windowElement.querySelector('.titleBar');
     var closeButton = windowElement.querySelector('.close'); // Get the close button element
 
+    var leftResize = windowElement.querySelector('.left')
+    var rightResize = windowElement.querySelector('.right')
+    var topResize = windowElement.querySelector('.top')
+    var bottomResize = windowElement.querySelector('.bottom')
+
+    var initialWidth = windowElement.offsetWidth
+    var initialHeight = windowElement.offsetHeight
+    
+    var initialLeft, initialRight, initialTop, initialBottom
+    var leftDown, rightDown, topDown, bottomDown;
+
     windowElement.addEventListener('mousedown', function (e) {
         index += 1;
         windowElement.style.zIndex = index
@@ -35,6 +46,10 @@ function initWindow(windowElement) {
 
     document.addEventListener('mouseup', function () {
         isMouseDown = false;
+        leftDown = false
+        rightDown = false
+        topDown = false
+        bottomDown = false
     });
 
     document.addEventListener('mousemove', function (e) {
@@ -48,7 +63,68 @@ function initWindow(windowElement) {
                 windowElement.style.top = (e.clientY - offsetY) + 'px';
             }
         }
+
+        if (leftDown) {
+            const newWidth = initialWidth + (offsetX - e.clientX); // Calculate the new width
+            const newLeft = initialLeft - (offsetX - e.clientX); // Calculate the new left position
+
+            if (newWidth >= 200) {
+                windowElement.style.width = newWidth + 'px';
+                windowElement.style.left = newLeft + 'px';
+            }
+        }
+
+        if (rightDown) {
+            const newWidth = initialWidth + (e.clientX - offsetX); // Calculate the new width
+            if (newWidth >= 200) {
+                windowElement.style.width = newWidth + 'px';
+            }
+        }
+
+        if (topDown) {
+            const newHeight = initialHeight - (e.clientY - offsetY);
+            const newTop = initialTop + (e.clientY - offsetY)
+            if (newHeight >= 200) {
+                windowElement.style.height = newHeight + 'px'
+                windowElement.style.top = newTop + 'px'
+            }
+        }
+
+        if (bottomDown) {
+            const newHeight = initialHeight + (e.clientY - offsetY);
+            if (newHeight >= 200) {
+                windowElement.style.height = newHeight + 'px'
+            }
+        }
     });
+
+    leftResize.addEventListener('mousedown', function (e) {
+        leftDown = true;
+        offsetX = e.clientX;
+        initialWidth = windowElement.offsetWidth; // Store the initial width
+        initialLeft = windowElement.getBoundingClientRect().left; // Store the initial left position
+    });
+
+    rightResize.addEventListener('mousedown', function (e) {
+        rightDown = true;
+        offsetX = e.clientX;
+        initialWidth = windowElement.offsetWidth; // Store the initial width
+        initialRight = windowElement.getBoundingClientRect().right; // Store the initial left position
+    });
+
+    topResize.addEventListener('mousedown', function(e) {
+        topDown = true;
+        offsetY = e.clientY
+        initialHeight = windowElement.offsetHeight
+        initialTop = windowElement.getBoundingClientRect().top
+    })
+
+    bottomResize.addEventListener('mousedown', function(e) {
+        bottomDown = true
+        offsetY = e.clientY
+        initialHeight = windowElement.offsetHeight
+        initialBottom = windowElement.getBoundingClientRect().bottom
+    })
 }
 
 // Initialize windows
@@ -91,12 +167,29 @@ function buttonPress(windowElement) {
         var windowXName = document.createElement('span')
         windowXName.innerText = "X"
 
+        var leftResize = document.createElement('div')
+        leftResize.classList = "left"
+
+        var rightResize = document.createElement('div')
+        rightResize.classList = "right"
+
+        var topResize = document.createElement('div')
+        topResize.classList = "top"
+
+        var bottomResize = document.createElement('div')
+        bottomResize.classList = "bottom"
+
         document.body.appendChild(windowMain)
         windowMain.appendChild(windowTitle)
         windowMain.appendChild(windowContent)
         windowTitle.appendChild(windowName)
         windowTitle.appendChild(windowX)
         windowX.appendChild(windowXName)
+
+        windowMain.appendChild(leftResize)
+        windowMain.appendChild(rightResize)
+        windowMain.appendChild(topResize)
+        windowMain.appendChild(bottomResize)
 
         if (windowElement.getAttribute('type') === "file") {
             // Use fetch to load the file content
