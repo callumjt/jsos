@@ -1,25 +1,38 @@
 {
-    "folder": {
+    "yes": {
         "name": "yes",
         "type": "folder",
 
-        "children": {
-            "file": {
-                "type": "file",
-                "file": "js"
-            }
+        "file": {
+            "type": "file",
+            "file": "js",
+            "name": "hello"
+        },
+
+        "folder": {
+            "type": "folder",
+            "name": "bfihabfaaa"
+        },
+
+        "folder2": {
+            "type": "folder",
+            "name": "bfihabfaaa"
         }
 
     },
-    "folder2": {
+    "yes2": {
         "name": "yes2",
         "type": "folder",
 
-        "children": {
-            "file": {
-                "type": "file",
-                "file": "js"
-            }
+        "file": {
+            "type": "file",
+            "name": "epic",
+            "file": "js"
+        },
+
+        "folder": {
+            "type": "folder",
+            "name": "hello"
         }
         
     }

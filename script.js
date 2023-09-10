@@ -211,7 +211,41 @@ function buttonPress(windowElement) {
             .then((json) => {
                 var fileSystem = document.createElement('div')
                 fileSystem.classList = 'fileSystem'
-                createFiles(json, windowContent, fileSystem)
+
+                var search = document.createElement('input')
+                search.type = 'text'
+                search.classList = 'fileSearch'
+                search.placeholder = "address"
+
+                windowMain.appendChild(search)
+
+                search.addEventListener('change', function(e) {
+
+                    var answer = []
+                    if (search.value.length > 0) {
+                        search.value = search.value + '/'
+                    }
+
+                    for (const x in search.value.split('/')) {
+                        answer.push(search.value.split('/')[x])
+                    }
+
+                    var path = json
+                    for (const x of answer) {
+                        if (path[x]) {
+                            path = path[x]
+                        }
+                    }
+
+                    windowContent.innerHTML = ``
+
+                    var fileSystem = document.createElement('div')
+                    fileSystem.classList = 'fileSystem'
+
+                    createFiles(path, windowContent, fileSystem, search)
+                })
+
+                createFiles(json, windowContent, fileSystem, search)
             });
 
 
@@ -222,11 +256,18 @@ function buttonPress(windowElement) {
     })
 }
 
-function createFiles(data, append, fileSystem) {
+function createFiles(data, append, fileSystem, search) {
     var folders = [];
     for (const x in data) {
         if (data[x].type === 'folder') {
             folders.push(data[x])
+        }
+    }
+
+    var files = []
+    for (const x in data) {
+        if (data[x].type === 'file') {
+            files.push(data[x])
         }
     }
 
@@ -238,17 +279,45 @@ function createFiles(data, append, fileSystem) {
         ico.src = "./icos/folder.png"
 
         var text = document.createElement('span')
-        text.innerText = folders[f].name
+        var name = folders[f].name
+        if (name.length <= 8) {
+            text.innerText = name
+        } else {
+            text.innerText = name.slice(0, 5) + '...'
+        }
+        text.title = name
 
         append.appendChild(fileSystem)
         fileSystem.appendChild(whole)
         whole.appendChild(ico)
         whole.appendChild(text)
-        folderClick(whole, data, text)
+        folderClick(whole, folders[f], text, append, search)
+    }
+
+    for (var f = 0; f < files.length; f++) {
+        var whole = document.createElement('div')
+        whole.classList = "fileWhole"
+
+        var ico = document.createElement('img')
+        ico.src = `./icos/${files[f].file}.png`
+
+        var text = document.createElement('span')
+        var name = files[f].name + ".js"
+        if (name.length <= 8) {
+            text.innerText = name
+        } else {
+            text.innerText = name.slice(0, 5) + '...'
+        }
+        text.title = name
+
+        append.appendChild(fileSystem)
+        fileSystem.appendChild(whole)
+        whole.appendChild(ico)
+        whole.appendChild(text)
     }
 }
 
-function folderClick(folderElement, data, text) {
+function folderClick(folderElement, data, text, append, search) {
     folderElement.addEventListener('click', function (e) {
         var folderClicked;
         for (const x in data) {
@@ -257,5 +326,12 @@ function folderClick(folderElement, data, text) {
                 console.log(text.innerText)
             }
         }
+        search.value = search.value + text.title + '/'
+        append.innerHTML = ''
+
+        var fileSystem = document.createElement('div')
+        fileSystem.classList = 'fileSystem'
+
+        createFiles(data, append, fileSystem, search)
     })
 }
